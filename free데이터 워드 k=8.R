@@ -15,6 +15,9 @@ str(talks_free_list)
 parse_talk_all<-data.frame()
 df_parse_talk_all<-do.call("rbind", c(parse_talk_all, talks_free_list))
 str(df_parse_talk_all)
+length(df_parse_talk_all)
+length(df_parse_talk_all[1,])
+length(df_parse_talk_all[,1])
 
 df_parse_talk_all<-data.frame(df_parse_talk_all)
 str(df_parse_talk_all)
@@ -43,9 +46,10 @@ ted_docs <- tm_map(ted_docs, removeWords, stopwords("SMART"))
 ted_docs <- tm_map(ted_docs, removeWords, "ted")
 
 ###Tokenizing
-strsplit_space_tokenizer <- function(x) unlist(strsplit(as.character(x), "[[:space:]]+"))
-token_docs<-(sapply(ted_docs, strsplit_space_tokenizer))
+strsplit_space_tokenizer <- function(x) 
+ unlist(strsplit(as.character(x), "[[:space:]]+")) 
 token_docs<-(sapply(ted_docs$content, strsplit_space_tokenizer))
+token_docs<-(sapply(token_docs, function(x){gsub(" ","", x)}))
 token_freq<-table(unlist(token_docs))
 summary(data.frame(token_freq)$Freq)
 
